@@ -3,12 +3,14 @@
   "version": "0.0.1",
   "scripts": {
     "build": "next build",
-    "dev": "node server.js",
+    "nodemon": "nodemon --watch lib --watch pages --watch comps --config nodemon.json",
+    "dev": "npm run build; node server.js",
     "lint": "standard comps/**/*.js pages/**/*.js lib/**/*.js",
     "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
     "express": "4.16.2",
+    "express-http-proxy": "1.1.0",
     "isomorphic-unfetch": "2.0.0",
     "next": "latest",
     "react": "^16.0.0",
@@ -17,6 +19,7 @@
     "youtube-player": "5.4.0"
   },
   "devDependencies": {
+    "nodemon": "^1.11.0",
     "standard": "^10.0.2"
   },
   "license": "ISC",

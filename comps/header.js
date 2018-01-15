@@ -60,8 +60,10 @@ const Header = ({name, uniqueName, navs}) => <div className='mainHeader'>
   {uniqueName === undefined
     ? <div className='heading'>
       <h1>
-        <span>Beardude</span>
-        <span>Event</span>
+        <Link href={`/`}><a className='navA'>
+          <span>Beardude</span>
+          <span>Event</span>
+        </a></Link>
       </h1>
     </div>
     : <div className='heading'>

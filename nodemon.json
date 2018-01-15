@@ -1,0 +1,7 @@
+{
+  "verbose": true,
+  "exec": "npm run dev",
+  "events": {
+    "restart": "osascript -e 'display notification \"Restarting\" with title \"nodemon\"'"
+  }
+}

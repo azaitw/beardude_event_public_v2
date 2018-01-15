@@ -35,9 +35,10 @@ const Index = (props) => (
   </div>
 )
 
-Index.getInitialProps = async function () {
+Index.getInitialProps = async function ({ pathname, query }) {
   const host = conf.getHost()
-  const response = await fetch(`${host}/api/event/getEvents`, {mode: 'no-cors', credentials: 'include'})
+  const queryParam = (query.showall === '1') ? '/all' : ''
+  const response = await fetch(`${host}/api/event/getEvents${queryParam}`, {mode: 'no-cors', credentials: 'include'})
   let out = {}
   if (response.status === 200) {
     const res = await response.json()

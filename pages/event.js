@@ -16,6 +16,7 @@ export default class Event extends React.Component {
   _bind (...methods) { methods.forEach((method) => { if (this[method]) { this[method] = this[method].bind(this) } }) }
   constructor (props) {
     super(props)
+
     this.isMobile = false
     this.socketio = io(host)
     this.streamVideo = undefined
@@ -34,7 +35,7 @@ export default class Event extends React.Component {
   }
   socketIoEvents () {
     const that = this
-    this.socketio.on('connect', () => fetch(`/api/socket/info?sid=${this.socketio.id}`, {credentials: 'include'}))
+    this.socketio.on('connect', () => fetch(`${host}/api/socket/info?sid=${this.socketio.id}`, {credentials: 'include'}))
     this.socketio.on('eventlatencyupdate', (data) => that.setState({ system: data.system }))
     this.socketio.on('raceupdate', (data) => that.setState({ races: processData.updateRaces(that.state.races, data.races), system: data.system }))
   }
