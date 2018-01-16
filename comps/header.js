@@ -1,6 +1,10 @@
 import Link from 'next/link'
-
-const Header = ({name, uniqueName, navs}) => <div className='mainHeader'>
+const navs = [
+  {key: 'register', name: '報名'},
+  {key: 'rules', name: '規則'}
+//  {key: 'concept', name: '理念'}
+]
+const Header = ({event}) => <div className='mainHeader'>
   <style jsx>{`
     .mainHeader {
       height: 45px;
@@ -57,7 +61,7 @@ const Header = ({name, uniqueName, navs}) => <div className='mainHeader'>
       padding: 0 12px 0 6px;
     }
   `}</style>
-  {uniqueName === undefined
+  {event === undefined
     ? <div className='heading'>
       <h1>
         <Link href={`/`}><a className='navA'>
@@ -68,13 +72,16 @@ const Header = ({name, uniqueName, navs}) => <div className='mainHeader'>
     </div>
     : <div className='heading'>
       <h1 className='eventName'>
-        <Link as={`/event/${uniqueName}`} href={`/event?uniqueName=${uniqueName}`}><a className='navA'>{name}</a></Link>
+        <Link as={`/event/${event.uniqueName}`} href={`/event?uniqueName=${event.uniqueName}`}>
+          <a className='navA'>{event.name}</a>
+        </Link>
       </h1>
       <ul className='navContainer'>
         {navs.map(nav => <li className='navLi' key={'nav-' + nav.key}>
-          <Link as={`/event/${uniqueName}/${nav.key}`} href={`/event?uniqueName=${uniqueName}&nav=${nav.key}`}>
+          <Link as={`/event/${event.uniqueName}/${nav.key}`} href={`/event?uniqueName=${event.uniqueName}&nav=${nav.key}`}>
             <a className='navA'>{nav.name}</a>
-          </Link></li>)}
+          </Link>
+        </li>)}
       </ul>
     </div>}
 </div>
