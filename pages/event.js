@@ -1,4 +1,3 @@
-import conf from '../lib/conf'
 import fetch from 'isomorphic-unfetch'
 import Head from 'next/head'
 import Header from '../comps/header'
@@ -6,17 +5,17 @@ import io from 'socket.io-client'
 import LeaderBoard from '../comps/leaderBoard'
 import processData from '../lib/processData'
 import React from 'react'
+import Register from '../comps/register'
 import Router from 'next/router'
 import YouTubePlayer from 'youtube-player'
 
-const host = conf.getHost()
 const youtubeParams = '?rel=0&controls=0&modestbranding=1&enablejsapi=1&autoplay=1&hd=1&autohide=1&showinfo=0&playsinline=1'
-
+let host
 export default class Event extends React.Component {
   _bind (...methods) { methods.forEach((method) => { if (this[method]) { this[method] = this[method].bind(this) } }) }
   constructor (props) {
     super(props)
-
+    host = props.url.query.host
     this.isMobile = false
     this.socketio = io(host)
     this.streamVideo = undefined
@@ -79,6 +78,9 @@ export default class Event extends React.Component {
     this.socketio = io(window.location.origin)
     window.addEventListener('resize', this.setIframeHeight)
     getEvent(onSuccess)
+  }
+  componentWillReceiveProps () {
+    TPDirect.setupSDK(11454, 'app_KNKgl08QjHL9ZyLYdu1F5uHHFlnnd7OGKwZ98S1lnPikxy67XEsO6OweBVji', 'sandbox')
   }
   componentWillUnmount () {
     this.socketio.close()
@@ -187,8 +189,9 @@ export default class Event extends React.Component {
         <meta name='og:description' content={info} />
         <meta name='viewport' content='initial-scale=1.0, width=device-width' />
         <link href='/static/css/index.css' rel='stylesheet' />
+        <script src="https://js.tappaysdk.com/tpdirect/v3" />
       </Head>
-      <Header name={event.nameCht} uniqueName={event.uniqueName} navs={navs} />
+      <Header event={event} />
       <div className='mainBody'>
         <div className='herowrap'>
           {event.announcement && event.announcement !== '' && <div className='announcement'>[公告] {event.announcement}</div>}
@@ -201,7 +204,7 @@ export default class Event extends React.Component {
           </div>}
         </div>
         <div className='content'>
-          {nav === 'register' && processData.returnLineBreakText(event.registerDesc)}
+          {nav === 'register' && <Register />}
           {nav === 'rules' && processData.returnLineBreakText(event.rules)}
           {!nav && LeaderBoard({nameTables, groups, races, raceSelected, handleSelect: this.handleSelect})}
         </div>
