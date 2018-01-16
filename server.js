@@ -19,9 +19,19 @@ const host = getHost()
 app.prepare()
 .then(() => {
   const server = express()
-  server.get('/event/:uniqueName', (req, res) => app.render(req, res, '/event', req.params))
-  server.get('/event/:uniqueName/:nav', (req, res) => app.render(req, res, '/event', req.params))
-  server.get('/', (req, res) => app.render(req, res, '/index', req.query))
+  server.get('/event/:uniqueName', (req, res) => {
+    req.params.host = host
+    app.render(req, res, '/event', req.params)
+  })
+  server.get('/event/:uniqueName/:nav', (req, res) => {
+    req.params.host = host
+    app.render(req, res, '/event', req.params)
+  })
+  server.get('/', (req, res) => {
+    req.params = req.query
+    req.params.host = host
+    app.render(req, res, '/index', req.params)
+  })
   server.get('*', (req, res) => handle(req, res))
   server.get('/api/**/**', proxy(host))
   server.listen(3000, (err) => {

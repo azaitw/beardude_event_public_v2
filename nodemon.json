@@ -1,7 +1,10 @@
 {
   "verbose": true,
-  "exec": "npm run dev",
+  "exec": "npm run build; node server.js",
   "events": {
     "restart": "osascript -e 'display notification \"Restarting\" with title \"nodemon\"'"
+  },
+  "env": {
+    "NODE_ENV": "development"
   }
 }

@@ -1,4 +1,3 @@
-import conf from '../lib/conf'
 import fetch from 'isomorphic-unfetch'
 import EventList from '../comps/eventList'
 import Head from 'next/head'
@@ -36,8 +35,8 @@ const Index = (props) => (
 )
 
 Index.getInitialProps = async function ({ pathname, query }) {
-  const host = conf.getHost()
   const queryParam = (query.showall === '1') ? '/all' : ''
+  const host = query.host
   const response = await fetch(`${host}/api/event/getEvents${queryParam}`, {mode: 'no-cors', credentials: 'include'})
   let out = {}
   if (response.status === 200) {
